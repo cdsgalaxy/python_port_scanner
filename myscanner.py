@@ -6,6 +6,7 @@ import subprocess
 import socket
 from optparse import OptionParser
 from socket import *
+from datetime import datetime
 
 ## Let's clear the screen to remove clutter!
 
@@ -49,26 +50,29 @@ def scan(host, port):
     sock=scanhost(host, port)
     setdefaulttimeout(10) 
     if sock:
-        if options.verbose=="y" or options.verbose=="yes" or options.verbose=="YES" or options.verbose=="Y":
-         print("scanning port:%d"%(port))
-         service=os.system("echo 'The known service: '`grep %d /etc/services|head -1|awk {'print $1'}`' (usually)'"%(port)) 
-         print("\n")
         banner=getbanner(sock)
         if banner:
 	   if options.condition=="OPEN" or options.condition=="open" or options.condition=="ALL" or options.condition=="all" or options.condition==None:
              print("%d     Open\n" %(port))
              if options.verbose=="y" or options.verbose=="yes" or options.verbose=="YES" or options.verbose=="Y":
-              print("Banner returned:\n")
+              service=os.system("echo 'The typical service on this port is: '`grep %d /etc/services|head -1|awk {'print $1'}`"%(port)) 
+              print("\nBanner returned:")
 	      print("%s"%banner)
+             print "*"*60
         else:
 	   if options.condition=="CLOSED" or options.condition=="closed" or options.condition=="ALL" or options.condition=="all" or options.condition==None:
              print("%d     Closed \n" %(port))
+             if options.verbose=="y" or options.verbose=="yes" or options.verbose=="YES" or options.verbose=="Y":
+              service=os.system("echo 'The typical service on this port is: '`grep %d /etc/services|head -1|awk {'print $1'}`"%(port)) 
+             print "*"*60
         sock.close()
     else:
 	 if options.condition=="TIMEOUT" or options.condition=="timeout" or options.condition=="ALL" or options.condition=="all" or options.condition==None:
           print("%d     Timeout\n"%(port))
+          if options.verbose=="y" or options.verbose=="yes" or options.verbose=="YES" or options.verbose=="Y":
+           service=os.system("echo 'The typical service on this port is: '`grep %d /etc/services|head -1|awk {'print $1'}`"%(port)) 
+          print "*"*60
         
-    print "*"*60
 
 if __name__=="__main__":
 #
@@ -94,6 +98,7 @@ if __name__=="__main__":
 #
        host=options.host
        ports=(options.ports).split(",")
+#       t1=datetime.now()
        try:  
            ports=list(filter(int, ports))
  
@@ -106,5 +111,8 @@ if __name__=="__main__":
                     scan(host, int(port))
            else:
                 print("Invalid host (hostname) given\n")
+#       endtime=datetime.now()
+#       totaltime=t2-t1
+#       print"The scan took this long to run:",totaltime     
        except:
             print("You have supplied an invalid port list (e.g: -p 21,22,53,..)")
