@@ -1,0 +1,31 @@
+How to run the myscanner.py:
+
+Usage: myscanner.py [options]
+
+Options:
+  -h, --help            show this help message and exit
+  -H example.com, --HOST=example.com
+                        ** you will need to enter a host name or ip**
+  -p PORT, --port=PORT  ports you want to scan separated by comma
+  -f CONDITION, --filter=CONDITION
+                        output only the specific condition at the port -->
+                        open, closed, timeout or all
+  -v VERBOSE, --verbose=VERBOSE
+                        verbose mode -- yes
+
+Known Bugs: the -v & --verbose options only work with a y, yes arguement at this time (required to use). I placed the value object in the code but it still misses it (I have a puzzle to solve :-) ).
+
+Running to code:
+
+python myscanner.py -H <hostname> -p <ports,comma delimited> --- this will give a basic, run of the mill out put. 
+
+*** -H and -p flags are required, it will haunt you if don't use them.***
+
+the -f will allow you to specify which 'condition' of the port you would like to know about (see above).
+
+the -y yes option will get so fun output about what it is doing and finding out.
+
+
+Background:
+
+I researched and cleaned out some cobwebs about/in my python coding skills, I still have some re-learning to do. As such, some of the code was adopted for other sourcesi through the research of the objects and adopted them for the use in this code. I put comments thought the code to explain what I was trying to accomplish. 

@@ -8,6 +8,8 @@ from optparse import OptionParser
 from socket import *
 from datetime import datetime
 
+t1=datetime.now()
+
 ## Let's clear the screen to remove clutter!
 
 subprocess.call('clear',shell=True)
@@ -48,7 +50,7 @@ def getbanner(sock):
 
 def scan(host, port):
     sock=scanhost(host, port)
-    setdefaulttimeout(10) 
+    setdefaulttimeout(7) 
     if sock:
         banner=getbanner(sock)
         if banner:
@@ -85,8 +87,12 @@ if __name__=="__main__":
                       help="ports you want to scan separated by comma", metavar="PORT")
     parser.add_option("-f", "--filter",dest="condition",type="string",
 		      help="output only the specific condition at the port -->  open, closed, timeout or all", metavar="CONDITION")
-    parser.add_option("-v","--verbose",dest="verbose",type="string",
-		      help="verbose mode -- yes", metavar="VERBOSE")
+    parser.add_option("-v","--verbose",dest="verbose",
+		      help="verbose mode -- yes")
+#
+# Trying to set the verbose option to yes by default (fix this)
+#
+    parser.set_defaults(verbose="yes")
 
     (options, args)=parser.parse_args()
     
@@ -98,7 +104,6 @@ if __name__=="__main__":
 #
        host=options.host
        ports=(options.ports).split(",")
-#       t1=datetime.now()
        try:  
            ports=list(filter(int, ports))
  
@@ -111,8 +116,9 @@ if __name__=="__main__":
                     scan(host, int(port))
            else:
                 print("Invalid host (hostname) given\n")
-#       endtime=datetime.now()
-#       totaltime=t2-t1
-#       print"The scan took this long to run:",totaltime     
        except:
             print("You have supplied an invalid port list (e.g: -p 21,22,53,..)")
+
+t2=datetime.now()
+totaltime=t2-t1
+print"The scan took this long to run:",totaltime     
