@@ -26,6 +26,3 @@ the -f will allow you to specify which 'condition' of the port you would like to
 the -y yes option will get so fun output about what it is doing and finding out.
 
 
-Background:
-
-I researched and cleaned out some cobwebs about/in my python coding skills, I still have some re-learning to do. As such, some of the code was adopted for other sourcesi through the research of the objects and adopted them for the use in this code. I put comments thought the code to explain what I was trying to accomplish. 
